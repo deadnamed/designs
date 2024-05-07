@@ -14,13 +14,13 @@ FishingMarker.defaultProps = {
 export default function FishingMarker (props: FishingMarkerProps){
     return (
     <div className='FishingMarker' style={{...{
-        height: 30,
+        height: 20,
         width: 3,
         backgroundColor: "#000000",
         position: "absolute",
         top: "50%",
         left: props.left,
-        transform: "translate(0%, -50%)"
+        transform: "translate(0%, -100%)"
     }, ...props.style}}>
 
     </div>
