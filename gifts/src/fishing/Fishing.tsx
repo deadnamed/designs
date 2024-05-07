@@ -25,11 +25,11 @@ export default function Fishing (props: FishingProps){
         justifyContent: "center",
         alignItems: "center",
     }}>
-            <img src={pond} style={{
-                height: 200,
-                width: 350,
-                objectFit: 'cover',
-            }}></img>
+        <img src={pond} style={{
+            height: 200,
+            width: 350,
+            objectFit: 'cover',
+        }}></img>
         <FishingBar />
     </div>
     )
