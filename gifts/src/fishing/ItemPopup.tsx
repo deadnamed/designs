@@ -79,7 +79,7 @@ export default function ItemPopup (props: ItemPopupProps){
                 borderRadius: "10px",
                 backgroundColor: "#2E211F",
                 overflow: "hidden",
-                marginTop: 20,
+                marginTop: 0,
                 position: "relative",
             }}>
                 <div className="NameContainer" style={{
@@ -130,13 +130,19 @@ export default function ItemPopup (props: ItemPopupProps){
             </div>
             <p style={{
                 fontSize: "3em",
+                margin: 0,
+                textAlign: "center",
             }}>
             {props.name}
             </p>
             <div style={{
-                marginTop: 10,
+                marginTop: 0,
             }}>
-            {props.description}
+                <p style={{
+                    fontSize: "1em",
+                    margin: 0,
+                    textAlign: "center",
+                }}>{props.description}</p>
             </div>
         </div>
         </div>
