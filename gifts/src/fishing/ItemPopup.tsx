@@ -69,7 +69,9 @@ export default function ItemPopup (props: ItemPopupProps){
             alignItems: "center",
             justifyContent: "center",
         }, ...props.style}} onClick={props.close}>
-            <p>
+            <p style={{
+                zIndex: 10,
+            }}>
             {props.prefix}
             </p>
             <div style={{
@@ -117,6 +119,7 @@ export default function ItemPopup (props: ItemPopupProps){
                     </div>
                     <p style={{
                         margin: 0,
+                        zIndex: 10,
                     }}>
                         {props.type}
                     </p>
@@ -132,16 +135,19 @@ export default function ItemPopup (props: ItemPopupProps){
                 fontSize: "3em",
                 margin: 0,
                 textAlign: "center",
+                zIndex: 10,
             }}>
             {props.name}
             </p>
             <div style={{
                 marginTop: 0,
+                zIndex: 10,
             }}>
                 <p style={{
                     fontSize: "1em",
                     margin: 0,
                     textAlign: "center",
+                    zIndex: 10,
                 }}>{props.description}</p>
             </div>
         </div>

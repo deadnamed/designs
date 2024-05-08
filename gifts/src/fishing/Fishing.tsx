@@ -27,8 +27,8 @@ export default function Fishing (props: FishingProps){
         alignItems: "center",
     }}>
         <img src={pond} style={{
-            height: 200,
-            width: 350,
+            height: "25vh",
+            width: "35vh",
             objectFit: 'cover',
         }}></img>
         <FishingBar />
