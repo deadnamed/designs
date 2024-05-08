@@ -1,11 +1,11 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React from 'react';
 import './FishingBar.css'
 import FishingMarker from './FishingMarker';
 import PointIndicator from './PointIndicator';
 import anime from 'animejs';
 import ItemPopup from './ItemPopup';
 import {items} from './Data.js'
-import img1 from '../assets/1.jpg';
+
 
 
 export interface FishingBarProps {
@@ -101,7 +101,8 @@ export default function FishingBar (props: FishingBarProps){
             clicks.current = 0
             setPointIndicators([])
             generate()
-            console.log('played')
+            markerPlacements
+            // console.log('played', markerPlacements)
             difference.current=0
             setPlaying(1)
             reset_animation()
@@ -208,7 +209,7 @@ export default function FishingBar (props: FishingBarProps){
         barLeft.current = barBox.left
         barRight.current = barBox.right
 
-        document.body.addEventListener('touchstart', (e)=>{
+        document.body.addEventListener('touchstart', ()=>{
             anime({
                 targets: '.MovingFishingMarker',
                 height: `${45}px`,

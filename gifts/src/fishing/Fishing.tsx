@@ -1,4 +1,4 @@
-import React, {useState, useRef, useEffect} from 'react';
+//import React, {useState, useRef, useEffect} from 'react';
 import './Fishing.css'
 import FishingBar from './FishingBar';
 import pond from '../assets/pond.png'
@@ -12,6 +12,7 @@ Fishing.defaultProps = {
 }
 
 export default function Fishing (props: FishingProps){
+    props
     return (
     <div className="App" style={{
         backgroundColor: "#EEE7DA",

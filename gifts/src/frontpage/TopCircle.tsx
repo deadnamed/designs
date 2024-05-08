@@ -1,4 +1,4 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React from 'react';
 import './TopCircle.css'
 import anime from 'animejs/lib/anime.es.js';
 
@@ -56,7 +56,7 @@ export default function TopCircle (props: TopCircleProps){
                 duration: 800
             });
         })
-        document.body.addEventListener('touchend', (e)=>{
+        document.body.addEventListener('touchend', ()=>{
             anime({
                 targets: '.TopCircle',
                 top: `${0}px`, 

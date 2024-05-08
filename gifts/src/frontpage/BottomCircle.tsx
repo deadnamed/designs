@@ -1,8 +1,7 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React, {useRef} from 'react';
 import './BottomCircle.css'
 import anime from 'animejs';
 import staticAnimation from '../assets/static.gif'
-import reactLogo from '../assets/react.svg'
 
 export interface BottomCircleProps {
     style: any;
