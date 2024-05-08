@@ -11,13 +11,13 @@ export interface BottomCircleProps {
 BottomCircle.defaultProps = {
     style: {},
     links: [
-        {"droppingOn": "Wed 8/5/24", "name": "fishery", "dropped": true, "imageLink":"https://source.unsplash.com/random?interior", "link":"/fishing"},
-        {"droppingOn": "Wed 8/5/24", "name": "locked", "dropped": false, "imageLink":"https://source.unsplash.com/random?interior", "link":"/fishing"},
-        {"droppingOn": "Wed 8/5/24", "name": "locked", "dropped": false, "imageLink":"https://source.unsplash.com/random?interior", "link":"/fishing"},
-        {"droppingOn": "Wed 8/5/24", "name": "locked", "dropped": false, "imageLink":"https://source.unsplash.com/random?interior", "link":"/fishing"},
-        {"droppingOn": "Wed 8/5/24", "name": "locked", "dropped": false, "imageLink":"https://source.unsplash.com/random?interior", "link":"/fishing"},
-        {"droppingOn": "Wed 8/5/24", "name": "locked", "dropped": false, "imageLink":"https://source.unsplash.com/random?interior", "link":"/fishing"},
-        {"droppingOn": "Wed 8/5/24", "name": "locked", "dropped": false, "imageLink":"https://source.unsplash.com/random?interior", "link":"/fishing"}
+        {"droppingOn": "Wed 8/5/24", "name": "fishery", "dropped": true, "imageLink":"https://source.unsplash.com/random?interior", "link":"/designs/fishing"},
+        {"droppingOn": "Wed 8/5/24", "name": "locked", "dropped": false, "imageLink":"https://source.unsplash.com/random?interior", "link":"/designs/fishing"},
+        {"droppingOn": "Wed 8/5/24", "name": "locked", "dropped": false, "imageLink":"https://source.unsplash.com/random?interior", "link":"/designs/fishing"},
+        {"droppingOn": "Wed 8/5/24", "name": "locked", "dropped": false, "imageLink":"https://source.unsplash.com/random?interior", "link":"/designs/fishing"},
+        {"droppingOn": "Wed 8/5/24", "name": "locked", "dropped": false, "imageLink":"https://source.unsplash.com/random?interior", "link":"/designs/fishing"},
+        {"droppingOn": "Wed 8/5/24", "name": "locked", "dropped": false, "imageLink":"https://source.unsplash.com/random?interior", "link":"/designs/fishing"},
+        {"droppingOn": "Wed 8/5/24", "name": "locked", "dropped": false, "imageLink":"https://source.unsplash.com/random?interior", "link":"/designs/fishing"}
     ]
 }
 
