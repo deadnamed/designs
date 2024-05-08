@@ -4,6 +4,8 @@ import FishingMarker from './FishingMarker';
 import PointIndicator from './PointIndicator';
 import anime from 'animejs';
 import ItemPopup from './ItemPopup';
+import {items} from './Data.js'
+import img1 from '../assets/1.jpg';
 
 
 export interface FishingBarProps {
@@ -21,6 +23,7 @@ FishingBar.defaultProps = {
 export default function FishingBar (props: FishingBarProps){
     const leniency = 50 //50ms between markers
     const movingMarkerRef = React.useRef<HTMLDivElement>(null!)
+    const typeMarkerRef = React.useRef<HTMLDivElement>(null!)
     const barRef = React.useRef<HTMLDivElement>(null!)
     const [markers, setMarkers] = React.useState<any>([])
     const [pointIndicators, setPointIndicators] = React.useState<any>([])
@@ -28,60 +31,14 @@ export default function FishingBar (props: FishingBarProps){
     const [markerDOMLeft, setMarkerDOMLeft] = React.useState<any>([])
     const [itemPopups, setItemPopups] = React.useState<any>(<></>)
     const [score, setScore] = React.useState(0)
-    const playing = React.useRef(0);
+    const nonStateScore = React.useRef(0)
+    const [playing, setPlaying] = React.useState(0);
     const barLeft = React.useRef(0);
     const barRight = React.useRef(0);
     const difference = React.useRef(0);
     const clicks = React.useRef(0);
-    const difficulty = Math.sqrt(props.markers);
-    const data = {
-        "trash": [
-            ["you caught a few", "grains of sand", "These don't look very appetizing... yet.", 0, 0, 0],
-            ["you caught a few", "pebbles", "You're wondering how thse could have been hooked up.", 1, 0, 0],
-            ["you caught a few", "drops of water", "It's pretty sad that most fishing games refuse to acknowledge the existence of these.", 2, 0, 0],
-            ["you caught exactly one", "plastic bag", "You're wondering how thse could have been hooked up.", 3, 0, 0],
-            ["you caught some", "organic matter", "hidrocacbon va dan xuat cua hidrocacbon in real life???", 4, 0, 0],
-            ["you caught some", "inorganic matter", "Tastes metallic. Feels pretty soft. Melts in your hand.", 5, 0, 0],
-            ["you caught exactly one", "dead fish", "It is a widespread misconception that you aren't supposed to eat these: after all, aren't all fish dead by the time you eat them?", 6, 0, 0],
-            ["you caught a few", "worms", "Your amount of fish bait might be going in the wrong direction.", 7, 0, 0],
-            ["you caught exactly one", "box of tea", "this pond is at 42° 21′ 8.72″ N 71° 3′ 4.57″ W", 8, 0, 0],
-            ["you caught a", "dumbbell", "Very dense (like Cam Linh), who, coincidentally, inspired this name ", 9, 0, 0],
-
-            ["you caught a few", "sandcastles", "Yes, you can pull up multiple of these with one hook.", 0, 1, 0],
-            ["you caught a few", "ice cubes", "(random scribbles)", 1, 1, 0],
-            ["you caught...", "no drops of water", "The hook is completely dry.", 2, 1, 0],
-            ["you caught exactly one", "bag of plastic bags", "Guess you gotta store your plastic bags somewhere.", 3, 1, 0],
-            ["you caught some", "very organic matter", "Smells like cat fur. it says \"chloe\" on the back.", 4, 1, 0],
-            ["you caught some", "very inorganic matter", "Smells like paint. it says \"FREAKY CUP\" somewhere on the thing. You wonder what it could mean.", 5, 1, 0],
-            ["you caught exactly one", "fried fish", "When people do tha ca phong sinh, this is not what they mean, and you know it.", 6, 1, 0],
-            ["you caught a few", "snakes", "jame", 7, 1, 0],
-            ["you caught exactly one", "United Kingdom of Great Britain and Northern Ireland", "Attracted to your pond by the smell of sweet, sweet tea. Maybe you should offer some plain toast next time?", 8, 1, 0],
-            ["you caught an", "anchor", "Fishing line's weightlifting pays off.", 9, 1, 0],
-        ],
-        "common": [
-            ["you caught a", "ceramic shard", "You can still see the brand name: TOTO. This might be used to craft something.", 0, 0, 0],
-            ["you caught a few", "gears", "Used for batch production surgery, I think", 1, 0, 0],
-            ["you caught a", "clogged siphon", "https://brilliant.org/courses/physics-everyday/in-the-house-3/how-does-a-toilet-work/?from_llp=science", 2, 0, 0],
-            ["you caught exactly one", "dilapidated flush", "Drains a small amount of water, sometimes successfully. Maybe this can actually be applied in something, if you could get it working well enough.", 3, 0, 0],
-            ["you caught some", "cookies", "People have, in fact, tried to make this very quickly https://www.youtube.com/watch?v=1ar3SioC5RI", 4, 0, 0],
-            ["you caught some", "inorganic matter", "Tastes metallic. Feels pretty soft. Melts in your hand.", 5, 0, 0],
-            ["you caught exactly one", "fish", "It's the generic species.", 6, 0, 0],
-            ["you caught exaclly one", "shrimp", "Same amount of kyphosis as me!!!", 7, 0, 0],
-            ["you caught exactly one", "crab", "Acceptable source of protein. He walked over here from Canada to meet you.", 8, 0, 0],
-            ["you caught a", "turtle", "You found a special item! Turning this on slows down the game by a lot.", 9, 0, 0],
-
-            ["you caught a", "toilet bowl", "It's already full of water, which is probably good.", 0, 1, 0],
-            ["you caught a", "toilet gearbox", "(random scribbles)", 1, 1, 0],
-            ["you caught a", "properly functioning siphon", "Water is already draining out of it, as expected.", 2, 1, 0],
-            ["you caught exactly one", "working flush mechanism", "Drains the pond. This would make all the interesting creatures very sad.", 3, 1, 0],
-            ["you caught some", "very organic matter", "Smells like cat fur. it says \"chloe\" on the back.", 4, 1, 0],
-            ["you caught some", "very inorganic matter", "Smells like paint. it says \"FREAKY CUP\" somewhere on the thing. You wonder what it could mean.", 5, 1, 0],
-            ["you caught exactly one", "fried fish", "When people do tha ca phong sinh, this is not what they mean, and you know it.", 6, 1, 0],
-            ["you caught a few", "snakes", "jame", 7, 1, 0],
-            ["you caught exactly one", "United Kingdom of Great Britain and Northern Ireland", "Attracted to your pond by the smell of sweet, sweet tea. Maybe you should offer some plain toast next time?", 8, 1, 0],
-            ["you caught a", "snail", "You found a special item! Turning this on slows down the game even more.", 9, 1, 0],
-        ]
-    }
+    const difficulty = Math.sqrt(props.markers)*2;
+    const data = items;
 
     const generate = () => {
         let newMarkerPlacements = []
@@ -108,29 +65,72 @@ export default function FishingBar (props: FishingBarProps){
     }
 
     const reset_animation = ()=>{
-        playing.current = 1
+        setPlaying(1)
         var el = movingMarkerRef.current;
         el.style.animation = 'none';
         el.offsetHeight; /* trigger reflow */
         el.style.animation = `play ${props.length+1}s ease-in-out forwards`; 
-        setTimeout(()=>{playing.current = 0}, (props.length+1)*1000)
+        setTimeout(()=>{setPlaying(0)}, (props.length+1)*1000)
+    }
+
+    const get_type = (location: number) => {
+        //console.log("score", nonStateScore.current)
+        //console.log(location)
+        //console.log("legendary upper limit: ", 100/((100*(props.markers*100-nonStateScore.current)/(props.markers*100))/((props.markers/difficulty)+1)))
+        //console.log("rare upper limit: ", (100/((100*(props.markers*100-nonStateScore.current)/(props.markers*100))/((props.markers/difficulty)+1)))+(100/((100*(props.markers*100-nonStateScore.current)/(props.markers*100))/((4*props.markers/difficulty)+1))))
+        //console.log("uncommon upper limit: ", (100/((100*(props.markers*100-nonStateScore.current)/(props.markers*100))/((props.markers/difficulty)+1)))+(100/((100*(props.markers*100-nonStateScore.current)/(props.markers*100))/((4*props.markers/difficulty)+1)))+(100/((100*(props.markers*100-nonStateScore.current)/(props.markers*100))/((9*props.markers/difficulty)+1))))
+        if (location<100/((100*(props.markers*100-nonStateScore.current)/(props.markers*100))/((props.markers/difficulty)+1))){
+            return("legendary")
+        }
+        if (location<(100/((100*(props.markers*100-nonStateScore.current)/(props.markers*100))/((props.markers/difficulty)+1)))+(100/((100*(props.markers*100-nonStateScore.current)/(props.markers*100))/((4*props.markers/difficulty)+1)))){
+            return("rare")
+        }
+        if (location<(100/((100*(props.markers*100-nonStateScore.current)/(props.markers*100))/((props.markers/difficulty)+1)))+(100/((100*(props.markers*100-nonStateScore.current)/(props.markers*100))/((4*props.markers/difficulty)+1)))+(100/((100*(props.markers*100-nonStateScore.current)/(props.markers*100))/((9*props.markers/difficulty)+1)))){
+            return("uncommon")
+        }
+        if (location<(100/((100*(props.markers*100-nonStateScore.current)/(props.markers*100))/((props.markers/difficulty)+1)))+(100/((100*(props.markers*100-nonStateScore.current)/(props.markers*100))/((4*props.markers/difficulty)+1)))+(100/((100*(props.markers*100-nonStateScore.current)/(props.markers*100))/((9*props.markers/difficulty)+1)))+(100/((100*(props.markers*100-nonStateScore.current)/(props.markers*100))/((36*props.markers/difficulty)+1)))){
+            return("common")
+        }
+        return("trash")
     }
 
     const play = () => {
-        if(playing.current == 0){
+        if(playing == 0){
             setScore(0)
+            nonStateScore.current=0
             clicks.current = 0
             setPointIndicators([])
             generate()
             console.log('played')
             difference.current=0
-            playing.current=1
+            setPlaying(1)
             reset_animation()
             setTimeout(()=>{
-                playing.current = 0; 
-                alert(difference.current+(props.markers-Math.min(clicks.current, props.markers))*100);
-                setItemPopups(<ItemPopup close={()=>{setItemPopups(<></>)}}/>)
+                const typeSelection = Math.random()*400
+                console.log(get_type(typeSelection))
+                const type = get_type(typeSelection)
+                
+                setTimeout(()=>{
+                    anime({
+                        targets: '.TypeFishingMarker',
+                        height: '30px',
+                        left: `${typeSelection}px`,
+                    })
+                }, 1000)
+                //alert(difference.current+(props.markers-Math.min(clicks.current, props.markers))*100);
+                setTimeout(()=>{
+                    //@ts-ignore
+                    const element=data[type][Math.floor(Math.random()*11)]
+                    console.log(element)
+                    setItemPopups(<ItemPopup type={type} prefix={element["prefix"]} name={element["name"]} description={element["description"]} imageLink={element["image_link"]} close={()=>{setItemPopups(<></>)}}/>)
+                    setPlaying(0) 
+                }, 2000)
             }, (props.length+1)*1000)
+            anime({
+                targets: '.TypeFishingMarker',
+                height: '0px',
+                left: '0px',
+            })
         }
         else{
             const currentPos = movingMarkerRef.current.getBoundingClientRect().left
@@ -144,12 +144,14 @@ export default function FishingBar (props: FishingBarProps){
             difference.current += min
             if(clicks.current <= props.markers){
                 setScore(score + 100 - min)
+                nonStateScore.current = nonStateScore.current + 100 - min
             }
             else{
-                setScore(score - min)
+                setScore(score-min)
+                nonStateScore.current = nonStateScore.current - min
             }
 
-            console.log(score)
+            //console.log(score)
 
             const getColorFromGradient = (color1: number[], color2: number[], weight: any) => {
                 var w1 = weight;
@@ -183,6 +185,8 @@ export default function FishingBar (props: FishingBarProps){
                     return "#4C64C4"
                 }
             }
+
+
 
             const newIndicator = (
                 <PointIndicator color={getColor(min)} left={movingMarkerRef.current.getBoundingClientRect().left-barLeft.current} score={min} style={{
@@ -262,107 +266,155 @@ export default function FishingBar (props: FishingBarProps){
             </div>
 
             <div className="pointDisplay" style={{
-                display: "block",
+                display: "flex",
                 marginTop: 120,
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
             }}>
-                <div className="backgroundBar" style={{
-                    height: 10,
-                    width: 400,
-                    borderRadius: 10,
-                    backgroundColor: "#222222",
+                <div className='AccuracyBar' style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
                 }}>
-                    <div className='maskBar' style={{
-                        height: 10,
-                        width: 400*score/(props.markers*100),
-                        borderRadius: 10,
-                        overflow: "hidden",
-                        transitionDuration: "1s",
-                    }}>
-                    <div className="foregroundBar" style={{
+                    <p style={{
+                        color: "#4d2d16",
+                        whiteSpace: "nowrap",
+                        margin: 5,
+                    }}>accuracy: </p>
+                    <div className="backgroundBar" style={{
                         height: 10,
                         width: 400,
                         borderRadius: 10,
-                        background: "linear-gradient(90deg, rgba(255,0,0,1) 0%, rgba(0,255,0,1) 80%, rgba(0,0,255,1) 100%)",
-                    }}>
+                        backgroundColor: "#222222",
                         
-                    </div>
+                    }}>
+                        <div className='maskBar' style={{
+                            height: 10,
+                            width: 400*score/(props.markers*100),
+                            borderRadius: 10,
+                            overflow: "hidden",
+                            transitionDuration: "1s",
+                        }}>
+                        <div className="foregroundBar" style={{
+                            height: 10,
+                            width: 400,
+                            borderRadius: 10,
+                            background: "linear-gradient(90deg, rgba(255,0,0,1) 0%, rgba(0,255,0,1) 80%, rgba(0,0,255,1) 100%)",
+                        }}>
+                            
+                        </div>
+                        </div>
                     </div>
                 </div>
-                <div className="rewardBar" style={{
-                    marginTop: 20,
-                    height: 10,
-                    width: 400,
-                    borderRadius: 10,
-                    backgroundColor: "#222222",
-                    position: "relative",
-                    overflow: "hidden",
+                <div style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
                 }}>
-                    <div className='LegendaryBar' style={{
+                    <p style={{
+                        color: "#4d2d16",
+                        whiteSpace: "nowrap",
+                        margin: 5,
+                    }}>reward type: </p>
+                    <div className="rewardBar" style={{
                         height: 10,
-                        width: 100/((100*(props.markers*100-score)/(props.markers*100))/((props.markers/difficulty)+1)),
+                        width: (playing==1)?0:400,
                         borderRadius: 10,
-                        overflow: "hidden",
+                        backgroundColor: "#222222",
+                        position: "relative",
                         transitionDuration: "1s",
-                        backgroundColor: "#d590dd",
-                        position: "absolute",
-                        top: 0,
-                        left: 0,
-                        zIndex: 0,
                     }}>
-                    </div>
-                    <div className='RareBar' style={{
-                        height: 10,
-                        width: 100/((100*(props.markers*100-score)/(props.markers*100))/((4*props.markers/difficulty)+1)),
-                        borderRadius: 10,
-                        overflow: "hidden",
-                        transitionDuration: "1s",
-                        backgroundColor: "#4C64C4",
-                        position: "absolute",
-                        top: 0,
-                        left: 100/((100*(props.markers*100-score)/(props.markers*100))/((props.markers/difficulty)+1)),
-                        zIndex: 0,
-                    }}>
-                    </div>
-                    <div className='UncommonBar' style={{
-                        height: 10,
-                        width: 100/((100*(props.markers*100-score)/(props.markers*100))/((9*props.markers/difficulty)+1)),
-                        borderRadius: 10,
-                        overflow: "hidden",
-                        transitionDuration: "1s",
-                        backgroundColor: "#CCE8CC",
-                        position: "absolute",
-                        top: 0,
-                        left: 100/((100*(props.markers*100-score)/(props.markers*100))/((4*props.markers/difficulty)+1))+100/((100*(props.markers*100-score)/(props.markers*100))/((props.markers/difficulty)+1)),
-                        zIndex: 0,
-                    }}>
-                    </div>
-                    <div className='CommonBar' style={{
-                        height: 10,
-                        width: 100/((100*(props.markers*100-score)/(props.markers*100))/((25*props.markers/difficulty)+1)),
-                        borderRadius: 10,
-                        overflow: "hidden",
-                        transitionDuration: "1s",
-                        backgroundColor: "#EBDA8E",
-                        position: "absolute",
-                        top: 0,
-                        left: 100/((100*(props.markers*100-score)/(props.markers*100))/((9*props.markers/difficulty)+1))+100/((100*(props.markers*100-score)/(props.markers*100))/((4*props.markers/difficulty)+1))+100/((100*(props.markers*100-score)/(props.markers*100))/((props.markers/difficulty)+1)),
-                        zIndex: 0,
-                    }}>
-                    </div>
-                    <div className='TrashBar' style={{
-                        height: 10,
-                        width: 400,
-                        borderRadius: 10,
-                        overflow: "hidden",
-                        transitionDuration: "1s",
-                        backgroundColor: "#601C1C",
-                        position: "absolute",
-                        top: 0,
-                        left: 100/((100*(props.markers*100-score)/(props.markers*100))/((25*props.markers/difficulty)+1))+100/((100*(props.markers*100-score)/(props.markers*100))/((9*props.markers/difficulty)+1))+100/((100*(props.markers*100-score)/(props.markers*100))/((4*props.markers/difficulty)+1))+100/((100*(props.markers*100-score)/(props.markers*100))/((props.markers/difficulty)+1)),
-                        zIndex: 0,
-                    }}>
-                    </div>
+                        <div ref={typeMarkerRef} className='TypeFishingMarker' style={{...{
+                            height: 30,
+                            width: 3,
+                            backgroundColor: "#000000",
+                            position: "absolute",
+                            top: "50%",
+                            left: 100,
+                            transform: "translate(0%, -50%)",
+                            animation: "",
+                            zIndex: 2,
+                        }, ...props.style}}>
 
+                        </div>
+                        <div className="rewardDisplayBar" style={{
+                            height: 10,
+                            width: (playing==1)?0:400,
+                            borderRadius: 10,
+                            backgroundColor: "#222222",
+                            position: "relative",
+                            overflow: "hidden",
+                            transitionDuration: "1s",
+                        }}>
+                        <div className='LegendaryBar' style={{
+                            height: 10,
+                            width: 100/((100*(props.markers*100-score)/(props.markers*100))/((props.markers/difficulty)+1)),
+                            borderRadius: 10,
+                            overflow: "hidden",
+                            transitionDuration: "1s",
+                            backgroundColor: "#d590dd",
+                            position: "absolute",
+                            top: 0,
+                            left: 0,
+                            zIndex: 0,
+                        }}>
+                        </div>
+                        <div className='RareBar' style={{
+                            height: 10,
+                            width: 100/((100*(props.markers*100-score)/(props.markers*100))/((4*props.markers/difficulty)+1)),
+                            borderRadius: 10,
+                            overflow: "hidden",
+                            transitionDuration: "1s",
+                            backgroundColor: "#4C64C4",
+                            position: "absolute",
+                            top: 0,
+                            left: 100/((100*(props.markers*100-score)/(props.markers*100))/((props.markers/difficulty)+1)),
+                            zIndex: 0,
+                        }}>
+                        </div>
+                        <div className='UncommonBar' style={{
+                            height: 10,
+                            width: 100/((100*(props.markers*100-score)/(props.markers*100))/((9*props.markers/difficulty)+1)),
+                            borderRadius: 10,
+                            overflow: "hidden",
+                            transitionDuration: "1s",
+                            backgroundColor: "#CCE8CC",
+                            position: "absolute",
+                            top: 0,
+                            left: 100/((100*(props.markers*100-score)/(props.markers*100))/((4*props.markers/difficulty)+1))+100/((100*(props.markers*100-score)/(props.markers*100))/((props.markers/difficulty)+1)),
+                            zIndex: 0,
+                        }}>
+                        </div>
+                        <div className='CommonBar' style={{
+                            height: 10,
+                            width: 100/((100*(props.markers*100-score)/(props.markers*100))/((25*props.markers/difficulty)+1)),
+                            borderRadius: 10,
+                            overflow: "hidden",
+                            transitionDuration: "1s",
+                            backgroundColor: "#EBDA8E",
+                            position: "absolute",
+                            top: 0,
+                            left: 100/((100*(props.markers*100-score)/(props.markers*100))/((9*props.markers/difficulty)+1))+100/((100*(props.markers*100-score)/(props.markers*100))/((4*props.markers/difficulty)+1))+100/((100*(props.markers*100-score)/(props.markers*100))/((props.markers/difficulty)+1)),
+                            zIndex: 0,
+                        }}>
+                        </div>
+                        <div className='TrashBar' style={{
+                            height: 10,
+                            width: 400,
+                            borderRadius: 10,
+                            overflow: "hidden",
+                            transitionDuration: "1s",
+                            backgroundColor: "#601C1C",
+                            position: "absolute",
+                            top: 0,
+                            left: 100/((100*(props.markers*100-score)/(props.markers*100))/((25*props.markers/difficulty)+1))+100/((100*(props.markers*100-score)/(props.markers*100))/((9*props.markers/difficulty)+1))+100/((100*(props.markers*100-score)/(props.markers*100))/((4*props.markers/difficulty)+1))+100/((100*(props.markers*100-score)/(props.markers*100))/((props.markers/difficulty)+1)),
+                            zIndex: 0,
+                        }}>
+                        </div>
+                        </div>
+
+                    </div>
                 </div>
             </div>
             {itemPopups}
