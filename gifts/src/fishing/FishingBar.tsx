@@ -34,6 +34,54 @@ export default function FishingBar (props: FishingBarProps){
     const difference = React.useRef(0);
     const clicks = React.useRef(0);
     const difficulty = Math.sqrt(props.markers);
+    const data = {
+        "trash": [
+            ["you caught a few", "grains of sand", "These don't look very appetizing... yet.", 0, 0, 0],
+            ["you caught a few", "pebbles", "You're wondering how thse could have been hooked up.", 1, 0, 0],
+            ["you caught a few", "drops of water", "It's pretty sad that most fishing games refuse to acknowledge the existence of these.", 2, 0, 0],
+            ["you caught exactly one", "plastic bag", "You're wondering how thse could have been hooked up.", 3, 0, 0],
+            ["you caught some", "organic matter", "hidrocacbon va dan xuat cua hidrocacbon in real life???", 4, 0, 0],
+            ["you caught some", "inorganic matter", "Tastes metallic. Feels pretty soft. Melts in your hand.", 5, 0, 0],
+            ["you caught exactly one", "dead fish", "It is a widespread misconception that you aren't supposed to eat these: after all, aren't all fish dead by the time you eat them?", 6, 0, 0],
+            ["you caught a few", "worms", "Your amount of fish bait might be going in the wrong direction.", 7, 0, 0],
+            ["you caught exactly one", "box of tea", "this pond is at 42° 21′ 8.72″ N 71° 3′ 4.57″ W", 8, 0, 0],
+            ["you caught a", "dumbbell", "Very dense (like Cam Linh), who, coincidentally, inspired this name ", 9, 0, 0],
+
+            ["you caught a few", "sandcastles", "Yes, you can pull up multiple of these with one hook.", 0, 1, 0],
+            ["you caught a few", "ice cubes", "(random scribbles)", 1, 1, 0],
+            ["you caught...", "no drops of water", "The hook is completely dry.", 2, 1, 0],
+            ["you caught exactly one", "bag of plastic bags", "Guess you gotta store your plastic bags somewhere.", 3, 1, 0],
+            ["you caught some", "very organic matter", "Smells like cat fur. it says \"chloe\" on the back.", 4, 1, 0],
+            ["you caught some", "very inorganic matter", "Smells like paint. it says \"FREAKY CUP\" somewhere on the thing. You wonder what it could mean.", 5, 1, 0],
+            ["you caught exactly one", "fried fish", "When people do tha ca phong sinh, this is not what they mean, and you know it.", 6, 1, 0],
+            ["you caught a few", "snakes", "jame", 7, 1, 0],
+            ["you caught exactly one", "United Kingdom of Great Britain and Northern Ireland", "Attracted to your pond by the smell of sweet, sweet tea. Maybe you should offer some plain toast next time?", 8, 1, 0],
+            ["you caught an", "anchor", "Fishing line's weightlifting pays off.", 9, 1, 0],
+        ],
+        "common": [
+            ["you caught a", "ceramic shard", "You can still see the brand name: TOTO. This might be used to craft something.", 0, 0, 0],
+            ["you caught a few", "gears", "Used for batch production surgery, I think", 1, 0, 0],
+            ["you caught a", "clogged siphon", "https://brilliant.org/courses/physics-everyday/in-the-house-3/how-does-a-toilet-work/?from_llp=science", 2, 0, 0],
+            ["you caught exactly one", "dilapidated flush", "Drains a small amount of water, sometimes successfully. Maybe this can actually be applied in something, if you could get it working well enough.", 3, 0, 0],
+            ["you caught some", "cookies", "People have, in fact, tried to make this very quickly https://www.youtube.com/watch?v=1ar3SioC5RI", 4, 0, 0],
+            ["you caught some", "inorganic matter", "Tastes metallic. Feels pretty soft. Melts in your hand.", 5, 0, 0],
+            ["you caught exactly one", "fish", "It's the generic species.", 6, 0, 0],
+            ["you caught exaclly one", "shrimp", "Same amount of kyphosis as me!!!", 7, 0, 0],
+            ["you caught exactly one", "crab", "Acceptable source of protein. He walked over here from Canada to meet you.", 8, 0, 0],
+            ["you caught a", "turtle", "You found a special item! Turning this on slows down the game by a lot.", 9, 0, 0],
+
+            ["you caught a", "toilet bowl", "It's already full of water, which is probably good.", 0, 1, 0],
+            ["you caught a", "toilet gearbox", "(random scribbles)", 1, 1, 0],
+            ["you caught a", "properly functioning siphon", "Water is already draining out of it, as expected.", 2, 1, 0],
+            ["you caught exactly one", "working flush mechanism", "Drains the pond. This would make all the interesting creatures very sad.", 3, 1, 0],
+            ["you caught some", "very organic matter", "Smells like cat fur. it says \"chloe\" on the back.", 4, 1, 0],
+            ["you caught some", "very inorganic matter", "Smells like paint. it says \"FREAKY CUP\" somewhere on the thing. You wonder what it could mean.", 5, 1, 0],
+            ["you caught exactly one", "fried fish", "When people do tha ca phong sinh, this is not what they mean, and you know it.", 6, 1, 0],
+            ["you caught a few", "snakes", "jame", 7, 1, 0],
+            ["you caught exactly one", "United Kingdom of Great Britain and Northern Ireland", "Attracted to your pond by the smell of sweet, sweet tea. Maybe you should offer some plain toast next time?", 8, 1, 0],
+            ["you caught a", "snail", "You found a special item! Turning this on slows down the game even more.", 9, 1, 0],
+        ]
+    }
 
     const generate = () => {
         let newMarkerPlacements = []
@@ -64,7 +112,7 @@ export default function FishingBar (props: FishingBarProps){
         var el = movingMarkerRef.current;
         el.style.animation = 'none';
         el.offsetHeight; /* trigger reflow */
-        el.style.animation = `play ${props.length+1}s linear forwards`; 
+        el.style.animation = `play ${props.length+1}s ease-in-out forwards`; 
         setTimeout(()=>{playing.current = 0}, (props.length+1)*1000)
     }
 
@@ -191,7 +239,7 @@ export default function FishingBar (props: FishingBarProps){
                 left: 0,
                 height: "100vh",
                 width: "100vw",
-            }} onClick={play}>
+            }} onTouchStart={play}>
 
             </div>
             <div style={{
