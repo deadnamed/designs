@@ -1,7 +1,7 @@
 //import React, {useState, useRef, useEffect} from 'react';
 import './Fishing.css'
 import FishingBar from './FishingBar';
-import pond from '../assets/pond.png'
+import pond from '/src/assets/pond.png'
 
 export interface FishingProps {
     style: any;

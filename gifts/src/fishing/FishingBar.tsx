@@ -70,7 +70,7 @@ export default function FishingBar (props: FishingBarProps){
         el.style.animation = 'none';
         el.offsetHeight; /* trigger reflow */
         el.style.animation = `play ${props.length+1}s ease-in-out forwards`; 
-        setTimeout(()=>{setPlaying(0)}, (props.length+1)*1000)
+        setTimeout(()=>{setPlaying(-1)}, (props.length+1)*1000)
     }
 
     const get_type = (location: number) => {
@@ -122,9 +122,10 @@ export default function FishingBar (props: FishingBarProps){
                 setTimeout(()=>{
                     //@ts-ignore
                     const element=data[type][Math.floor(Math.random()*11)]
-                    console.log(element)
+                    console.log(element["image_link"])
                     setItemPopups(<ItemPopup type={type} prefix={element["prefix"]} name={element["name"]} description={element["description"]} imageLink={element["image_link"]} close={()=>{setItemPopups(<></>)}}/>)
                     setPlaying(0) 
+                    console.log(playing)
                 }, 2000)
             }, (props.length+1)*1000)
             anime({
@@ -133,7 +134,7 @@ export default function FishingBar (props: FishingBarProps){
                 left: '0px',
             })
         }
-        else{
+        if(playing==1){
             const currentPos = movingMarkerRef.current.getBoundingClientRect().left
             clicks.current++
             let min = 1000000

@@ -18,8 +18,8 @@ export default function Router (props: RouterProps){
     }, ...props.style}}>
         <BrowserRouter>
             <Routes>
-                <Route path="/*" element={<App />} />
-                <Route path="/fishing/*" element={<Fishing />} />
+                <Route path="/designs/*" element={<App />} />
+                <Route path="/designs/fishing/*" element={<Fishing />} />
             </Routes>
         </BrowserRouter>
     </div>
