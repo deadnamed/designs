@@ -116,7 +116,7 @@ export default function ItemPopup (props: ItemPopupProps){
 
                     </div>
                     <p style={{
-
+                        margin: 0,
                     }}>
                         {props.type}
                     </p>
