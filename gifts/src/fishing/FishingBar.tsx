@@ -5,6 +5,8 @@ import PointIndicator from './PointIndicator';
 import anime from 'animejs';
 import ItemPopup from './ItemPopup';
 import {items} from './Data.js'
+import CollectionItem from './CollectionItem.js';
+import Collection from './Collection.js';
 
 
 
@@ -461,6 +463,7 @@ export default function FishingBar (props: FishingBarProps){
                 </div>
             </div>
             {itemPopups}
+            {/* <Collection storage={JSON.parse(localStorage.getItem("storage"))}/> */}
         </div>
     )
 }

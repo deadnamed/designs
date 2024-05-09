@@ -27,7 +27,7 @@ ItemPopup.defaultProps = {
 export default function ItemPopup (props: ItemPopupProps){
     const maskRef=React.useRef<HTMLDivElement>(null!)
     const getColor = (string: string)=>{
-        if(string=="extraordinarily common"){
+        if(string=="trash"){
             return "#601C1C"
         }
         if(string=="common"){
