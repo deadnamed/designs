@@ -39,6 +39,7 @@ export default function FishingBar (props: FishingBarProps){
     const clicks = React.useRef(0);
     const difficulty = Math.sqrt(props.markers)*2;
     const data = items;
+    const storage = React.useRef({});
 
     const generate = () => {
         let newMarkerPlacements = []
@@ -122,8 +123,20 @@ export default function FishingBar (props: FishingBarProps){
                 setTimeout(()=>{
                     //@ts-ignore
                     const element=data[type][Math.floor(Math.random()*11)]
-                    console.log(element["image_link"])
-                    setItemPopups(<ItemPopup type={type} prefix={element["prefix"]} name={element["name"]} description={element["description"]} imageLink={element["image_link"]} close={()=>{setItemPopups(<></>)}}/>)
+                    if(localStorage.getItem("storage")==null){
+                        let newStorage: any = {}
+                        for (const [key, values] of Object.entries(data)){
+                            for (let i = 0; i < values.length; i++){
+                                newStorage[values[i]["name"]] = 0
+                            }
+                        }
+                        localStorage.setItem("storage", JSON.stringify(newStorage))
+                    }
+                    //@ts-ignore
+                    let newStorage: any = JSON.parse(localStorage.getItem("storage"))
+                    newStorage[element.name]++
+                    localStorage.setItem("storage", JSON.stringify(newStorage))
+                    setItemPopups(<ItemPopup type={type} prefix={element["prefix"]} name={element["name"]} description={element["description"]} imageLink={element["image_link"]} close={()=>{setItemPopups(<></>)}} itemsOwned={newStorage[element.name]}/>)
                     setPlaying(0) 
                     console.log(playing)
                 }, 2000)
@@ -224,6 +237,34 @@ export default function FishingBar (props: FishingBarProps){
                 duration: 800
             });
         })
+        function isJson(str: string) {
+            try {
+                JSON.parse(str);
+            } catch (e) {
+                return false;
+            }
+            return true;
+        }
+        if(localStorage.getItem("storage") == null ){
+            let newStorage: any = {}
+            for (const [key, values] of Object.entries(data)){
+                for (let i = 0; i < values.length; i++){
+                    newStorage[values[i]["name"]] = 0
+                }
+            }
+            localStorage.setItem("storage", JSON.stringify(newStorage))
+        }
+        //@ts-ignore
+        if(!isJson(localStorage.getItem("storage"))){
+            let newStorage: any = {}
+            for (const [key, values] of Object.entries(data)){
+                for (let i = 0; i < values.length; i++){
+                    newStorage[values[i]["name"]] = 0
+                }
+            }
+            localStorage.setItem("storage", JSON.stringify(newStorage))
+        }
+
     }, [])
     
     return (

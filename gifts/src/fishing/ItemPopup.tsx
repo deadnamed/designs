@@ -10,6 +10,7 @@ export interface ItemPopupProps {
     imageLink: string;
     type: string;
     close: any; //function
+    itemsOwned: number;
 }
 
 ItemPopup.defaultProps = {
@@ -20,6 +21,7 @@ ItemPopup.defaultProps = {
     imageLink: "https://w7.pngwing.com/pngs/323/1020/png-transparent-water-desktop-zen-presentation-drop-sticker-thumbnail.png",
     type: "extraordinarily common",
     close: ()=>{},
+    itemsOwned: 0,
 }
 
 export default function ItemPopup (props: ItemPopupProps){
@@ -122,6 +124,46 @@ export default function ItemPopup (props: ItemPopupProps){
                         zIndex: 10,
                     }}>
                         {props.type}
+                    </p>
+                </div>
+                <div className="NameContainer" style={{
+                    position: "absolute",
+                    bottom: 4,
+                    left: 4,
+                    zIndex: 1,
+                    fontSize: 12,
+                    backgroundColor: "#000000CC",
+                    paddingTop: 4,
+                    paddingLeft: 4,
+                    paddingRight: 4,
+                    paddingBottom: 4,
+                    borderRadius: 6,
+                    height: "fit-content",
+                    width: "fit-content",
+                    transformOrigin: "top left",
+                    transitionDuration: "0.5s", //TODO: replace this with animejs
+                    //transform: mouseIsOver ? "scale(2)" : "scale(1)",
+                    transformStyle: "preserve-3d",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                }}>
+                    <div style={{
+                        height: 12,
+                        width: 12,
+                        borderRadius: 4,
+                        margin: 2,
+                        marginRight: 4,
+                        marginLeft: 2,
+                        backgroundColor: getColor(props.type)
+                    }}>
+
+                    </div>
+                    <p style={{
+                        margin: 0,
+                        zIndex: 10,
+                    }}>
+                        amount owned: {props.itemsOwned}
                     </p>
                 </div>
                 <img src={props.imageLink} style={{
