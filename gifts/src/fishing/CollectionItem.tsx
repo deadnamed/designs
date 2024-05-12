@@ -11,6 +11,9 @@ export interface CollectionItemProps{
     type: string;
     close: any; //function
     itemsOwned: number;
+    onClick: any; //function
+    chosen: boolean;
+    bait: boolean;
 }
 
 CollectionItem.defaultProps = {
@@ -22,6 +25,9 @@ CollectionItem.defaultProps = {
     type: "trash",
     close: ()=>{},
     itemsOwned: 0,
+    onClick: ()=>{},
+    chosen: false,
+    bait: false,
 }
 
 export default function CollectionItem (props: CollectionItemProps){
@@ -68,10 +74,19 @@ export default function CollectionItem (props: CollectionItemProps){
         }
     }
 
+    const clickHandler = ()=>{
+        if(!props.bait){
+            openInfo()
+        }
+        props.onClick()
+        // console.log("item", props.name, "clicked!")
+        // console.log("bait is", props.bait)
+    }
+
     return (
     <div className='CollectionItem' style={{...{
 
-    }, ...props.style}} onClick={openInfo}>
+    }, ...props.style}} onClick={clickHandler}>
         <div style={{
             objectFit: "cover",
             height: "40vh",
@@ -122,6 +137,36 @@ export default function CollectionItem (props: CollectionItemProps){
                     {props.type}
                 </p>
             </div>
+            {props.chosen && <div className="NameContainer" style={{
+                position: "absolute",
+                top: 4,
+                right: 4,
+                zIndex: 1,
+                fontSize: 12,
+                backgroundColor: "#FFB4F1",
+                paddingTop: 2,
+                paddingLeft: 4,
+                paddingRight: 2,
+                paddingBottom: 4,
+                borderRadius: 6,
+                height: "fit-content",
+                width: "fit-content",
+                transformOrigin: "top left",
+                transitionDuration: "0.5s", //TODO: replace this with animejs
+                //transform: mouseIsOver ? "scale(2)" : "scale(1)",
+                transformStyle: "preserve-3d",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+            }}>
+                <p style={{
+                    margin: 0,
+                    zIndex: 10,
+                    color: "#000000"
+                }}>
+                    chosen
+                </p>
+            </div>}
             <div className="NameContainer" style={{
                 position: "absolute",
                 bottom: 4,

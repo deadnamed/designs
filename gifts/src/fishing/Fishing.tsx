@@ -30,6 +30,7 @@ export default function Fishing (props: FishingProps){
             height: "25vh",
             width: "35vh",
             objectFit: 'cover',
+            marginTop: -150,
         }}></img>
         <FishingBar />
     </div>

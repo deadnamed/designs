@@ -1,0 +1,8 @@
+.Collection{
+    display: grid;
+    grid-template-rows: 40vh;
+    grid-auto-rows: 40vh;
+    grid-template-columns: repeat(auto-fit, minmax(50vh, 1fr));
+    gap: 10px;
+
+}
