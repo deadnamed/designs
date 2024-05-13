@@ -42,6 +42,7 @@ export default function Collection (props: CollectionProps){
                             chosen={chosenItem == element.name}
                             onClick={()=>{if(props.bait){setChosenItem(element.name)}}}
                             bait={false}
+                            rare={element.item_rarity==1?true:false}
                         />
                     )
                 }
