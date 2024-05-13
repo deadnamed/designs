@@ -233,26 +233,36 @@ export default function FishingBar (props: FishingBarProps){
                         }
                         localStorage.setItem("storage", JSON.stringify(newStorage))
                     }
+                    console.log("current bait:", baitRef.current, "type: ", type)
                     if(baitRef.current != "no bait"){
                         console.log(element, bait)
                         if(type=="uncommon"){
-                            for(const [key, value] of data){
-                                for (const item of data[type]){
+                            for(const [key, value] of Object.entries(data)){
+                                for (const item of value){
                                     if(item.name == baitRef.current){
                                         element = item
                                     }
                                 }
                             }
                         }
-                        if(type=="rare" || type=="legendary" || type=="trash"){
-                            for (const item of data[type]){
-                                if(item.name == baitRef.current){
-                                    element = item
+                        if(type=="rare" || type=="legendary"){
+                            let baitType = ""
+                            console.log(type)
+                            for(const [key, value] of Object.entries(data)){
+                                for (const item of value){
+                                    if(item.name == baitRef.current){
+                                        element = item
+                                        // console.log(item.name, key)
+                                        baitType = key;
+                                    }
                                 }
                             }
-                            for (const item of data[type]){
-                                if(item.item_id == element.item_id && item.item_rarity == 1){
-                                    element = item
+                            for(const [key, value] of Object.entries(data)){
+                                for (const item of value){
+                                    if(item.item_id == element.item_id && item.item_rarity == 1 && key == baitType){
+                                        element = item
+                                        // console.log(item, key)
+                                    }
                                 }
                             }
                         }
@@ -582,7 +592,7 @@ export default function FishingBar (props: FishingBarProps){
                                 borderRadius: 10,
                                 overflow: "hidden",
                                 transitionDuration: "1s",
-                                backgroundColor: "#d590dd",
+                                backgroundColor: (bait=="no bait")?"#d590dd":"#4C64C4",
                                 position: "absolute",
                                 top: 0,
                                 left: 0,
@@ -621,7 +631,7 @@ export default function FishingBar (props: FishingBarProps){
                                 borderRadius: 10,
                                 overflow: "hidden",
                                 transitionDuration: "1s",
-                                backgroundColor: "#EBDA8E",
+                                backgroundColor: (bait=="no bait")?"#EBDA8E":"#601C1C",
                                 position: "absolute",
                                 top: 0,
                                 left: 100/((100*(markersNumber*100-score)/(markersNumber*100))/((9*markersNumber/difficulty)+1))+100/((100*(markersNumber*100-score)/(markersNumber*100))/((4*markersNumber/difficulty)+1))+100/((100*(markersNumber*100-score)/(markersNumber*100))/((markersNumber/difficulty)+1)),

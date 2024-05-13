@@ -14,6 +14,7 @@ export interface CollectionItemProps{
     onClick: any; //function
     chosen: boolean;
     bait: boolean;
+    rare: boolean;
 }
 
 CollectionItem.defaultProps = {
@@ -28,6 +29,7 @@ CollectionItem.defaultProps = {
     onClick: ()=>{},
     chosen: false,
     bait: false,
+    rare: false,
 }
 
 export default function CollectionItem (props: CollectionItemProps){
@@ -134,7 +136,7 @@ export default function CollectionItem (props: CollectionItemProps){
                     margin: 0,
                     zIndex: 10,
                 }}>
-                    {props.type}
+                    {props.rare?"special":props.type}
                 </p>
             </div>
             {props.chosen && <div className="NameContainer" style={{
@@ -207,12 +209,14 @@ export default function CollectionItem (props: CollectionItemProps){
                     amount owned: {props.itemsOwned}
                 </p>
             </div>
-            <img src={props.imageLink} style={{
-                objectFit: "cover",
-                height: "40vh",
-                width: "50vh",
-            }}>
-            </img>
+            <div>
+                <img src={props.imageLink} style={{
+                    objectFit: "cover",
+                    height: "40vh",
+                    width: "50vh",
+                }}>
+                </img>
+            </div>
         </div>
         {itemPopups}
 </div>

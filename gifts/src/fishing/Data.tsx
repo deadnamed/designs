@@ -394,7 +394,7 @@ export const items = {
       {
         prefix: 'you caught some',
         name: 'sashimi',
-        description: "When people do tha ca phong sinh, this is not what they mean, and you know it. Apparently, this doesn't taste great without sauce.",
+        description: "When people do tha ca phong sinh, this is not what they mean, and you know it. Also, apparently, this doesn't taste great without sauce.",
         item_id: 6,
         item_rarity: 1,
         image_link: image37
